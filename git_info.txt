@@ -55,4 +55,9 @@ If you get "Merge Conflict":
     Open the files, delete the <<<<< and >>>>> markers, 
     keep the code you want, then 'git add' and 'commit'.
 
+5. RECREATING ENVIRONMENTS (The pip way)
+------------------------------------------------------------
+Save your list:    pip freeze > requirements.txt
+Install on New PC: pip install -r requirements.txt
+
 ============================================================
