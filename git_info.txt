@@ -1,0 +1,58 @@
+============================================================
+GIT PUSH, PULL, & SYNC CHEAT SHEET
+============================================================
+
+1. SETTING UP ON A NEW COMPUTER (CLONING)
+------------------------------------------------------------
+Use this when the code is on GitHub and you want to download 
+it to a brand-new machine for the first time.
+
+Step 1: Navigate to where you want the project to live
+    cd Documents/Projects
+
+Step 2: Download the repository
+    git clone https://github.com/USERNAME/REPO_NAME.git
+
+Step 3: Enter the folder
+    cd REO_NAME
+
+
+2. THE "TWO-COMPUTER" WORKFLOW (SYNCING)
+------------------------------------------------------------
+Follow this cycle to keep Computer A and Computer B in sync.
+
+Step A: BEFORE YOU START (Download latest work)
+    git pull origin main
+
+Step B: DO YOUR WORK
+    (Edit your files, save your code)
+
+Step C: AFTER YOU FINISH (Upload work for next time)
+    git add .
+    git commit -m "Finished work for today"
+    git push origin main
+
+
+3. DAILY PUSHING (UPDATING GITHUB)
+------------------------------------------------------------
+    git add .
+    git commit -m "Describe your changes"
+    git push origin main
+
+
+4. TROUBLESHOOTING & STATUS
+------------------------------------------------------------
+Check connection to GitHub:
+    git remote -v
+
+Check which files are changed/staged:
+    git status
+
+If you get "Rejected" on a push:
+    Run 'git pull origin main' first to merge online changes.
+
+If you get "Merge Conflict":
+    Open the files, delete the <<<<< and >>>>> markers, 
+    keep the code you want, then 'git add' and 'commit'.
+
+============================================================
