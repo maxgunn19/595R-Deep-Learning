@@ -73,7 +73,7 @@ def load_data(batch_size):
 
     train_ds, test_ds =random_split(dataset, [0.80, 0.20]) # split the dataset into 80% training and 20% testing
 
-    train_dataloader = DataLoader(train_ds, batch_size=batch_size)
+    train_dataloader = DataLoader(train_ds, batch_size=batch_size, shuffle=True) # create a dataloader for the training set with shuffling
     test_dataloader = DataLoader(test_ds, batch_size=batch_size)
 
     return train_dataloader, test_dataloader

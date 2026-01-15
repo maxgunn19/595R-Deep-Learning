@@ -12,10 +12,10 @@ class VanillaNetwork(nn.Module):
         super().__init__()
 
         self.network = nn.Sequential(
-            nn.Linear(7, 64),      # (numer of inputs, number of outputs)
-            nn.LeakyReLU(0.1),          
-            nn.Linear(64, 32),
-            nn.LeakyReLU(0.1),
+            nn.Linear(7, 128),      # (numer of inputs, number of outputs)
+            nn.Tanh(),
+            nn.Linear(128, 32),
+            nn.Tanh(),
             nn.Linear(32, 1),
         )
     
@@ -69,7 +69,7 @@ def test(dataloader, model, loss_fn):
 
     return avg_mse
 
-def load_data(batch_size):
+def load_data(batch_size, generator):
     # usecols=range(8) ignores the car names at the end 
     data_path = os.path.join(os.path.dirname(__file__), "Data", "auto-mpg.data-original")
     raw_data = np.genfromtxt(
@@ -97,7 +97,8 @@ def load_data(batch_size):
     train_size = int(0.80 * len(dataset))
     test_size = len(dataset) - train_size
 
-    train_ds, test_ds =random_split(dataset, [train_size, test_size]) # split the dataset into 80% training and 20% testing
+
+    train_ds, test_ds =random_split(dataset, [train_size, test_size], generator=generator) # split the dataset into 80% training and 20% testing
 
     train_dataloader = DataLoader(train_ds, batch_size=batch_size, shuffle=True) # create a dataloader for the training set with shuffling
     test_dataloader = DataLoader(test_ds, batch_size=batch_size)
@@ -106,13 +107,21 @@ def load_data(batch_size):
 
 if __name__ == "__main__":
 
+    # 1. Set the seed for reproducibility
+    seed = 42
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+
+    # 2. Update your random_split to use a Generator
+    # (This ensures the 80/20 split is always the same cars)
+    generator = torch.Generator().manual_seed(seed)
 
     model = VanillaNetwork()
     loss_fn = nn.MSELoss() # mean squared error loss function
-    optimizer = torch.optim.Adam(model.parameters(), lr = 1e-3) # Adam optimizer with learning rate of 0.001
-    batch_size = 
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3) # Adam optimizer with learning rate of 0.001
+    batch_size = 128
 
-    train_dataloader, test_dataloader = load_data(batch_size)
+    train_dataloader, test_dataloader = load_data(batch_size, generator)
 
     epochs = 1000
     train_losses = []
